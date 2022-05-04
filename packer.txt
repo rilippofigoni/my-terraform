@@ -1,0 +1,115 @@
+#### PACKER INSTALL & AMI creation
+
+Last login: Tue May  3 17:10:14 on console
+❯  brew install hashicorp/tap/packer
+Running `brew update --preinstall`...
+==> Auto-updated Homebrew!
+Updated 1 tap (homebrew/core).
+==> Updated Formulae
+Updated 3 formulae.
+
+==> Downloading https://releases.hashicorp.com/packer/1.8.0/packer_1.8.0_darwin_amd64.zip
+######################################################################## 100.0%
+==> Installing packer from hashicorp/tap
+Error: Your Command Line Tools are too outdated.
+Update them from Software Update in System Preferences or run:
+  softwareupdate --all --install --force
+
+If that doesn't show you any updates, run:
+  sudo rm -rf /Library/Developer/CommandLineTools
+  sudo xcode-select --install
+
+Alternatively, manually download them from:
+  https://developer.apple.com/download/all/.
+You should download the Command Line Tools for Xcode 13.2.1.
+
+❯  brew install hashicorp/tap/packer
+==> Downloading https://releases.hashicorp.com/packer/1.8.0/packer_1.8.0_darwin_amd64.zip
+Already downloaded: /Users/pippo/Library/Caches/Homebrew/downloads/fc1c9d84e9d3483dbcc5c857943fa776f8ab80c86ac1cbb62dca3fbf8d6eca1e--packer_1.8.0_darwin_amd64.zip
+==> Installing packer from hashicorp/tap
+Warning: A newer Command Line Tools release is available.
+Update them from Software Update in System Preferences or run:
+  softwareupdate --all --install --force
+
+If that doesn't show you any updates, run:
+  sudo rm -rf /Library/Developer/CommandLineTools
+  sudo xcode-select --install
+
+Alternatively, manually download them from:
+  https://developer.apple.com/download/all/.
+You should download the Command Line Tools for Xcode 13.2.1.
+
+🍺  /usr/local/Cellar/packer/1.8.0: 3 files, 170.3MB, built in 8 seconds
+==> Running `brew cleanup packer`...
+Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.
+Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
+❯ brew upgrade hashicorp/tap/packer
+Warning: hashicorp/tap/packer 1.8.0 already installed
+❯ packer
+Usage: packer [--version] [--help] <command> [<args>]
+
+Available commands are:
+    build           build image(s) from template
+    console         creates a console for testing variable interpolation
+    fix             fixes templates from old versions of packer
+    fmt             Rewrites HCL2 config files to canonical format
+    hcl2_upgrade    transform a JSON template into an HCL2 configuration
+    init            Install missing plugins or upgrade plugins
+    inspect         see components of a template
+    plugins         Interact with Packer plugins and catalog
+    validate        check that a template is valid
+    version         Prints the Packer version
+
+❯ cd Documents
+❯ mkdir packer_tutorial
+❯ cd packer_tutorial
+❯ sudo nano aws-ubuntu.pkr.hcl
+Password:
+❯ packer init .
+Installed plugin github.com/hashicorp/amazon v1.0.9 in "/Users/pippo/.config/packer/plugins/github.com/hashicorp/amazon/packer-plugin-amazon_v1.0.9_x5.0_darwin_amd64"
+❯ packer fmt .
+aws-ubuntu.pkr.hcl
+Error: encountered an error while formatting aws-ubuntu.pkr.hcl
+
+open aws-ubuntu.pkr.hcl: permission denied
+
+
+❯ sudo packer fmt .
+Password:
+aws-ubuntu.pkr.hcl
+❯ sudo packer validate .
+The configuration is valid.
+❯ sudo packer build aws-ubuntu.pkr.hcl
+learn-packer.amazon-ebs.ubuntu: output will be in this color.
+
+==> learn-packer.amazon-ebs.ubuntu: Prevalidating any provided VPC information
+==> learn-packer.amazon-ebs.ubuntu: Prevalidating AMI Name: learn-packer-linux-aws
+    learn-packer.amazon-ebs.ubuntu: Found Image ID: ami-05803413c51f242b7
+==> learn-packer.amazon-ebs.ubuntu: Creating temporary keypair: packer_62714b1d-82a8-e747-85b9-53df05ffd1ee
+==> learn-packer.amazon-ebs.ubuntu: Creating temporary security group for this instance: packer_62714b20-b714-e30b-4642-0aacd914296d
+==> learn-packer.amazon-ebs.ubuntu: Authorizing access to port 22 from [0.0.0.0/0] in the temporary security groups...
+==> learn-packer.amazon-ebs.ubuntu: Launching a source AWS instance...
+    learn-packer.amazon-ebs.ubuntu: Instance ID: i-017689db97cd6fd1a
+==> learn-packer.amazon-ebs.ubuntu: Waiting for instance (i-017689db97cd6fd1a) to become ready...
+==> learn-packer.amazon-ebs.ubuntu: Using SSH communicator to connect: 3.16.123.195
+==> learn-packer.amazon-ebs.ubuntu: Waiting for SSH to become available...
+==> learn-packer.amazon-ebs.ubuntu: Connected to SSH!
+==> learn-packer.amazon-ebs.ubuntu: Stopping the source instance...
+    learn-packer.amazon-ebs.ubuntu: Stopping instance
+==> learn-packer.amazon-ebs.ubuntu: Waiting for the instance to stop...
+==> learn-packer.amazon-ebs.ubuntu: Creating AMI learn-packer-linux-aws from instance i-017689db97cd6fd1a
+    learn-packer.amazon-ebs.ubuntu: AMI: ami-097763ff009a896f3
+==> learn-packer.amazon-ebs.ubuntu: Waiting for AMI to become ready...
+==> learn-packer.amazon-ebs.ubuntu: Skipping Enable AMI deprecation...
+==> learn-packer.amazon-ebs.ubuntu: Terminating the source AWS instance...
+==> learn-packer.amazon-ebs.ubuntu: Cleaning up any extra volumes...
+==> learn-packer.amazon-ebs.ubuntu: No volumes to clean up, skipping
+==> learn-packer.amazon-ebs.ubuntu: Deleting temporary security group...
+==> learn-packer.amazon-ebs.ubuntu: Deleting temporary keypair...
+Build 'learn-packer.amazon-ebs.ubuntu' finished after 3 minutes 22 seconds.
+
+==> Wait completed after 3 minutes 22 seconds
+
+==> Builds finished. The artifacts of successful builds are:
+--> learn-packer.amazon-ebs.ubuntu: AMIs were created:
+us-east-2: ami-097763ff009a896f3
